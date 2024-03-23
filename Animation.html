@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+<style>
+  .container {
+    width: 1440px;
+    height: 600px;
+    position: relative;
+    background: rgb(208, 255, 0);
+  }
+
+  .circle {
+    width: 50px;
+    height: 50px;
+    background-color: #34db9e;
+    position: absolute;
+    border-radius: 50%;
+  }
+
+  #circle1 {
+    width: 50px;
+    /* Set the width of the circle */
+    height: 50px;
+    /* Set the height of the circle */
+    background-color: #f80505;
+    /* Set the background color */
+    position: absolute;
+    border-radius: 50%;
+    /* Makes the element a circle */
+  }
+
+  #circle2 {
+    width: 50px;
+    /* Set the width of the circle */
+    height: 50px;
+    /* Set the height of the circle */
+    background-color: #a334db;
+    /* Set the background color */
+    position: absolute;
+    border-radius: 50%;
+    /* Makes the element a circle */
+  }
+
+  #circle3 {
+    width: 50px;
+    /* Set the width of the circle */
+    height: 50px;
+    /* Set the height of the circle */
+    background-color: #5d02ef;
+    /* Set the background color */
+    position: absolute;
+    border-radius: 50%;
+    /* Makes the element a circle */
+  }
+
+  #circle4 {
+    background-color: #d20e7a;
+  }
+
+  #circle5 {
+    background-color: #08d6c5;
+  }
+
+  #circle6 {
+    background-color: #1000f5;
+  }
+
+  .box {
+    width: 10px;
+    height: 100px;
+    position: absolute;
+    background-color: rgb(60, 0, 255);
+  }
+
+  #box2 {
+    background-color: #03f6f2;
+  }
+
+  #posDisplay {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    padding: 10px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  #barGraph {
+    position: fixed;
+    top: 10px;
+    left: 600px;
+    width: 400px;
+    height: 30px;
+    background-color: #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+
+  #barFill {
+    height: 100%;
+    background-color: #4000ff;
+    transition: width 0.1s ease;
+  }
+</style>
+
+<body>
+
+  <p><button onclick="myMove()">Click</button></p>
+
+
+  <div class="container" id="container">
+    <div class="box" id="box1"></div>
+    <div class="box" id="box2"></div>
+    <div class="box" id="box3"></div>
+
+    <div id="circle1"></div>
+    <div id="circle2"></div>
+    <div id="circle3"></div>
+
+    <div class="circle" id="circle4"></div>
+    <div class="circle" id="circle5"></div>
+    <div class="circle" id="circle6"></div>
+  </div>
+
+  <div id="posDisplay">angle: <span id="posValue">0</span></div>
+
+  <div id="barGraph">
+    <div id="barFill"></div>
+  </div>
+
+
+  <script>
+    function myMove() {
+      let id = null;
+      const exampleElement = document.querySelector('.container');
+
+      const elem01 = document.getElementById("box1");
+      const elem02 = document.getElementById("box2");
+      const elem03 = document.getElementById("box3");
+      const elem2 = document.getElementById("circle1");
+      const elem3 = document.getElementById("circle2");
+      const elem4 = document.getElementById("circle3");
+
+      const elem5 = document.getElementById("circle4");
+      const elem6 = document.getElementById("circle5");
+      const elem7 = document.getElementById("circle6");
+
+      const posValueDisplay = document.getElementById("posValue");
+      const barFill = document.getElementById("barFill");
+
+
+
+      var angle = 1;
+      let count = 0;
+
+      let size = 100;
+      let colorCode = 0x3498db; // Hexadecimal color c
+
+
+      clearInterval(id);
+
+      id = setInterval(frame, 10);
+
+
+      function createCircle(teta, phai, amp) {
+        const circle = document.createElement('div');
+        circle.className = 'circle';
+        circle.style.width = '50px';
+        circle.style.height = '50px';
+        circle.style.position = 'absolute';
+        circle.style.borderRadius = '50%';
+
+        circle.style.top = 300 + amp * Math.sin(phai * (Math.PI / 180)) + 'px';
+
+        circle.style.left = 4 * teta + "px";
+
+        circle.style.backgroundColor = '#' + (0x111111 * Math.abs(angle) % 0xffffff).toString(16);
+        document.getElementById('container').appendChild(circle);
+
+        // Add the created circle to the tracking array
+        createdCircles.push(circle);
+
+      }
+
+      function removeCreatedCircles() {
+        // Remove each created circle from the DOM
+        createdCircles.forEach(circle => circle.remove());
+
+        // Clear the tracking array
+        createdCircles.length = 0;
+      }
+
+      const createdCircles = [];
+
+
+
+
+
+      function frame() {
+
+        angle++;
+
+
+        elem01.style.top = 275 + "px";
+        elem01.style.left = 325 + "px";
+        elem01.style.transform = `rotate(${Math.abs(angle)}deg)`;
+        elem01.style.transformOrigin = 'center center';
+
+        elem02.style.top = 275 + "px";
+        elem02.style.left = 325 + "px";
+        elem02.style.transform = `rotate(${Math.abs(angle)+90}deg)`;
+        elem02.style.transformOrigin = 'center center';
+
+        elem03.style.top = 320 + "px";
+        elem03.style.left = 0 + "px";
+        elem03.style.width = 1440 + 'px';
+        elem03.style.height = 10 + 'px';
+
+
+
+        elem2.style.top = 326 - (elem2.offsetHeight / 2) + "px";
+        elem2.style.left = 326 - (elem2.offsetWidth / 2) + "px";
+        elem2.style.width = (Math.abs(angle) % 100) + 'px';
+        elem2.style.height = (Math.abs(angle) % 100) + 'px';
+
+        exampleElement.style.backgroundColor = '#' + colorCode.toString(16); // Convert to hexadecimal string
+
+        colorCode = (colorCode + 0x000001); // Increment color code in a cyclic manner
+        if (colorCode == 0xffffff) {
+
+
+          colorCode == 0x000000;
+        }
+
+
+
+        /*elem3.style.left = 300 + 200 * (Math.sin(angle * 3.1416 / 180)) + "px";
+        elem3.style.top = 300 + 200 * (Math.cos(angle * 3.1416 / 180)) + "px";
+
+        elem4.style.left = 300 + 100 * (Math.sin((360 - angle) * 3.1416 / 180)) + "px";
+        elem4.style.top = 300 + 100 * (Math.cos((360 - angle) * 3.1416 / 180)) + "px";
+
+
+        elem5.style.top = 300 + 200 * (Math.sin(Math.abs(angle) * 3.1416 / 180)) + "px";
+        elem5.style.left = 40 + 4 * Math.abs(angle) + "px";
+
+        elem6.style.top = 300 + 200 * (Math.sin((2 * 3.1416 / 3) + Math.abs(angle) * 3.1416 / 180)) + "px";
+        elem6.style.left = 40 + 4 * Math.abs(angle) + "px";
+
+        elem7.style.top = 300 + 200 * (Math.sin(-(2 * 3.1416 / 3) + Math.abs(angle) * 3.1416 / 180)) + "px";
+        elem7.style.left = 40 + 4 * Math.abs(angle) + "px";*/
+
+        posValueDisplay.textContent = eval(angle);
+
+        const barWidth = (Math.abs(angle) / 360) * 100 + "%";
+        barFill.style.width = barWidth;
+
+
+        if (count < 2) {
+          createCircle(Math.abs(angle), 2 * Math.abs(angle), 200)
+          createCircle(Math.abs(angle), 2 * Math.abs(angle) + 120, 200)
+          createCircle(Math.abs(angle), 2 * Math.abs(angle) - 120, 200)
+        }
+
+        else {
+          createCircle((300 + 200 * (Math.cos(angle * 3.1416 / 180))) / 4, Math.abs(angle), 200)
+          createCircle((300 + 100 * (Math.cos((angle) * 3.1416 / 180))) / 4, 360-Math.abs(angle), 100)
+          if (count == 4) {
+            removeCreatedCircles();
+            count = 0;
+          }
+        }
+
+        if (angle == 360 | angle == 0) {
+
+          count++;
+
+          removeCreatedCircles();
+
+        }
+
+        if (angle == 360) {
+
+          angle = -angle;
+
+        }
+
+      }
+    }
+  </script>
+
+</body>
+
+</html>
